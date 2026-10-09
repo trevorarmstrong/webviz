@@ -94,15 +94,15 @@ input,
 select,
 textarea {
   color: $text-control;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: $input-background;
 
   &:focus {
-    background-color: rgba(255, 255, 255, 0.075);
+    background-color: $input-background-focus;
   }
 
   &.disabled {
     color: $text-input-disabled;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: $input-background-disabled;
   }
 }
 
@@ -112,7 +112,7 @@ textarea {
   color: $text-normal;
   background-color: $panel-background;
   &:focus {
-    background-color: black;
+    background-color: $textarea-background-focus;
   }
 }
 
@@ -126,7 +126,7 @@ div::-webkit-scrollbar-track {
 }
 
 div::-webkit-scrollbar-thumb {
-  background: #666;
+  background: $scrollbar-thumb;
 }
 
 a {

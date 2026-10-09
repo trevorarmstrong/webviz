@@ -12,13 +12,14 @@ import styled from "styled-components";
 
 import Icon from "webviz-core/src/components/Icon";
 import { type MessageHistoryItem } from "webviz-core/src/components/MessageHistory";
+import { themeColor } from "webviz-core/src/styles/theme";
 import clipboard from "webviz-core/src/util/clipboard";
 import { format } from "webviz-core/src/util/time";
 
 export const SMetadata = styled.div`
   margin-top: 4px;
   font-size: 11px;
-  color: #aaa;
+  color: ${themeColor("textSecondary")};
 `;
 type Props = { data: any, link: ?string, item: MessageHistoryItem };
 

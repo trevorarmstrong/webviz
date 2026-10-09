@@ -10,6 +10,7 @@ import React, { PureComponent } from "react";
 import Dimensions from "react-container-dimensions";
 import { createSelector } from "reselect";
 import { Time } from "rosbag";
+import { ThemeContext } from "styled-components";
 import uuid from "uuid";
 
 import styles from "./PlotChart.module.scss";
@@ -18,6 +19,7 @@ import TimeBasedChart, { type TimeBasedChartTooltipData } from "webviz-core/src/
 import filterMap from "webviz-core/src/filterMap";
 import derivative from "webviz-core/src/panels/Plot/derivative";
 import { type PlotPath, isReferenceLinePlotPathType } from "webviz-core/src/panels/Plot/internalTypes";
+import { resolveTheme } from "webviz-core/src/styles/theme";
 import { lightColor, lineColors } from "webviz-core/src/util/plotColors";
 import { isTime, subtractTimes, format, formatTimeRaw, toSec } from "webviz-core/src/util/time";
 
@@ -158,11 +160,11 @@ function getAnnotations(paths: PlotPath[]) {
   });
 }
 
-type YAxesInterface = {| minY: number, maxY: number, scaleId: string |};
+type YAxesInterface = {| minY: number, maxY: number, scaleId: string, gridLineColor: string |};
 // min/maxYValue is NaN when it's unset, and an actual number otherwise.
 const yAxes = createSelector<YAxesInterface, _, _, _>(
   (params) => params,
-  ({ minY, maxY, scaleId }: YAxesInterface) => {
+  ({ minY, maxY, scaleId, gridLineColor }: YAxesInterface) => {
     const min = isNaN(minY) ? undefined : minY;
     const max = isNaN(maxY) ? undefined : maxY;
     return [
@@ -176,8 +178,8 @@ const yAxes = createSelector<YAxesInterface, _, _, _>(
             idx === 0 || idx === vals.length - 1 ? "" : `${Math.round(val * 1000) / 1000}`,
         },
         gridLines: {
-          color: "rgba(255, 255, 255, 0.2)",
-          zeroLineColor: "rgba(255, 255, 255, 0.2)",
+          color: gridLineColor,
+          zeroLineColor: gridLineColor,
         },
       },
     ];
@@ -193,8 +195,11 @@ type PlotChartProps = {|
   xAxisVal: "timestamp" | "index",
 |};
 export default class PlotChart extends PureComponent<PlotChartProps> {
+  static contextType = ThemeContext;
+
   render() {
     const { paths, minYValue, maxYValue, saveCurrentYs, datasets, xAxisVal } = this.props;
+    const gridLineColor = resolveTheme(this.context).colors.chartGridLine;
     const annotations = getAnnotations(paths);
     return (
       <div className={styles.root}>
@@ -208,7 +213,7 @@ export default class PlotChart extends PureComponent<PlotChartProps> {
               data={{ datasets }}
               annotations={annotations}
               type="scatter"
-              yAxes={yAxes({ minY: minYValue, maxY: maxYValue, scaleId: Y_AXIS_ID })}
+              yAxes={yAxes({ minY: minYValue, maxY: maxYValue, scaleId: Y_AXIS_ID, gridLineColor })}
               saveCurrentYs={saveCurrentYs}
               xAxisVal={xAxisVal}
               useFixedYAxisWidth

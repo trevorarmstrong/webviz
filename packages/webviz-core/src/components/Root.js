@@ -10,6 +10,7 @@ import HelpCircleIcon from "@mdi/svg/svg/help-circle.svg";
 import React from "react";
 import { hot } from "react-hot-loader/root";
 import { connect, Provider } from "react-redux";
+import { ThemeProvider } from "styled-components";
 
 import styles from "./Root.module.scss";
 import { importPanelLayout } from "webviz-core/src/actions/panels";
@@ -26,6 +27,7 @@ import { TinyConnectionPicker } from "webviz-core/src/components/TinyConnectionP
 import Toolbar from "webviz-core/src/components/Toolbar";
 import withDragDropContext from "webviz-core/src/components/withDragDropContext";
 import getGlobalStore from "webviz-core/src/store/getGlobalStore";
+import { defaultTheme } from "webviz-core/src/styles/theme";
 import { setReactHotLoaderConfig } from "webviz-core/src/util/dev";
 import { showHelpModalOpenSource } from "webviz-core/src/util/showHelpModalOpenSource";
 
@@ -105,11 +107,13 @@ const ConnectedApp = connect<Props, {}, _, _, _, _>(
 const Root = () => {
   return (
     <Provider store={getGlobalStore()}>
-      <div className="app-container">
-        <ErrorBoundary>
-          <ConnectedApp />
-        </ErrorBoundary>
-      </div>
+      <ThemeProvider theme={defaultTheme}>
+        <div className="app-container">
+          <ErrorBoundary>
+            <ConnectedApp />
+          </ErrorBoundary>
+        </div>
+      </ThemeProvider>
     </Provider>
   );
 };

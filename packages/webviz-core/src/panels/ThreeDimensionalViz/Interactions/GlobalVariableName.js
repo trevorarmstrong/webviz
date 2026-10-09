@@ -9,8 +9,10 @@
 import React from "react";
 import styled from "styled-components";
 
+import { themeColor } from "webviz-core/src/styles/theme";
+
 const SGlobalVariableName = styled.span`
-  color: #ccb862;
+  color: ${themeColor("orange")};
   font-weight: bold;
   max-width: 100px;
   overflow: hidden;

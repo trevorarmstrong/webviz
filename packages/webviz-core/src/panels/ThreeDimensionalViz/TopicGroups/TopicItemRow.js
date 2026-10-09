@@ -17,6 +17,7 @@ import { SMenuWrapper } from "./TopicGroupMenu";
 import TopicItemMenu from "./TopicItemMenu";
 import type { TopicItem, OnTopicGroupsChange } from "./types";
 import Icon from "webviz-core/src/components/Icon";
+import { themeColor } from "webviz-core/src/styles/theme";
 import { colors } from "webviz-core/src/util/colors";
 
 const namespaceCss = css`
@@ -48,7 +49,7 @@ const SItemMain = styled.div`
   &:hover {
     background-color: ${colors.HOVER_BACKGROUND_COLOR};
     ${SMenuWrapper} {
-      color: white;
+      color: ${themeColor("foreground")};
       opacity: 1;
     }
   }

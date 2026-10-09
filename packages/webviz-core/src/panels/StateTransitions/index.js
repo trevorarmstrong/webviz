@@ -6,12 +6,12 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 
-import { isEqual, uniq } from "lodash";
+import { isEqual, memoize, uniq } from "lodash";
 import * as React from "react";
 import Dimensions from "react-container-dimensions";
 import { hot } from "react-hot-loader/root";
 import stringHash from "string-hash";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 import textWidth from "text-width";
 import tinycolor from "tinycolor2";
 
@@ -31,6 +31,7 @@ import TimeBasedChart, { type TimeBasedChartTooltipData } from "webviz-core/src/
 import { getGlobalHooks } from "webviz-core/src/loadWebviz";
 import colors from "webviz-core/src/styles/colors.module.scss";
 import mixins from "webviz-core/src/styles/mixins.module.scss";
+import { resolveTheme } from "webviz-core/src/styles/theme";
 import type { PanelConfig } from "webviz-core/src/types/panels";
 import { positiveModulo } from "webviz-core/src/util";
 import { darkColor, lineColors } from "webviz-core/src/util/plotColors";
@@ -133,19 +134,19 @@ const SInputDelete = styled.div`
   }
 `;
 
-const yAxes = [
+const getYAxes = memoize((fontColor: string) => [
   {
     ticks: {
       fontFamily: mixins.monospaceFont,
       fontSize: 10,
-      fontColor: "#eee",
+      fontColor,
       maxRotation: 0,
       callback: () => "",
     },
     type: "category",
     offset: true,
   },
-];
+]);
 
 const plugins = {
   datalabels: {
@@ -197,6 +198,7 @@ type Props = {
 };
 
 class StateTransitions extends React.PureComponent<Props> {
+  static contextType = ThemeContext;
   static panelType = "StateTransitions";
   static defaultConfig = defaultConfig;
 
@@ -335,7 +337,7 @@ class StateTransitions extends React.PureComponent<Props> {
                         height={height}
                         data={data}
                         type="multicolorLine"
-                        yAxes={yAxes}
+                        yAxes={getYAxes(resolveTheme(this.context).colors.chartText)}
                         plugins={plugins}
                       />
 

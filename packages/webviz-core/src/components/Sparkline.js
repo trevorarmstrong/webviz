@@ -9,6 +9,7 @@ import { max } from "lodash";
 import * as React from "react";
 
 import AutoSizingCanvas from "webviz-core/src/components/AutoSizingCanvas";
+import { useTheme } from "webviz-core/src/styles/theme";
 
 export type SparklinePoint = {| value: number, timestamp: number |};
 
@@ -26,6 +27,7 @@ function draw(
   maximum: number,
   timeRange: number,
   nowStamp: number,
+  lineColor: string,
   context: CanvasRenderingContext2D,
   width: number,
   height: number
@@ -33,7 +35,7 @@ function draw(
   const maxValue = Math.max(maximum, max(points.map(({ value }) => value)));
   context.clearRect(0, 0, width, height);
   context.beginPath();
-  context.strokeStyle = "white";
+  context.strokeStyle = lineColor;
   let first = true;
   for (const { value, timestamp } of points) {
     const x = ((timeRange + timestamp - nowStamp) / timeRange) * width;
@@ -49,18 +51,28 @@ function draw(
 }
 
 export function Sparkline(props: SparklineProps) {
+  const theme = useTheme();
   return (
     <div
       style={{
         display: "inline-block",
         verticalAlign: "-10px",
-        backgroundColor: "#333",
+        backgroundColor: theme.colors.surfaceRaised,
         width: props.width,
         height: props.height,
       }}>
       <AutoSizingCanvas
         draw={(context: CanvasRenderingContext2D, width: number, height: number) => {
-          draw(props.points, props.maximum || 0, props.timeRange, props.nowStamp || Date.now(), context, width, height);
+          draw(
+            props.points,
+            props.maximum || 0,
+            props.timeRange,
+            props.nowStamp || Date.now(),
+            theme.colors.foreground,
+            context,
+            width,
+            height
+          );
         }}
       />
     </div>

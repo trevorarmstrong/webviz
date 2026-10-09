@@ -6,7 +6,6 @@
 
 // this is based on https://github.com/palantir/react-mosaic/blob/master/styles/blueprint-theme.less
 @import "~webviz-core/src/styles/colors.module.scss";
-$grey: #777;
 
 .mosaic {
   .mosaic-root {
@@ -44,7 +43,7 @@ $grey: #777;
     font-size: 12px;
     line-height: 30px;
     padding-left: 5px;
-    color: $grey;
+    color: $text-inactive;
   }
 
   .mosaic-split {
@@ -54,7 +53,7 @@ $grey: #777;
       box-shadow: 0 0 0 1px $toolbar;
     }
     &:hover .mosaic-split-line {
-      box-shadow: 0 0 0 1px $grey;
+      box-shadow: 0 0 0 1px $text-inactive;
     }
   }
 

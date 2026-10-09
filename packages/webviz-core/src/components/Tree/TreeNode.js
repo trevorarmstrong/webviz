@@ -19,12 +19,14 @@ import FolderIcon from "@mdi/svg/svg/folder.svg";
 import LeadPencilIcon from "@mdi/svg/svg/lead-pencil.svg";
 import cx from "classnames";
 import React, { Component } from "react";
+import { ThemeContext } from "styled-components";
 
 import styles from "./index.module.scss";
 import type { Node } from "./Node";
 import Icon from "webviz-core/src/components/Icon";
 import Tooltip from "webviz-core/src/components/Tooltip";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { resolveTheme } from "webviz-core/src/styles/theme";
 
 type Props = {
   node: Node,
@@ -39,6 +41,8 @@ type Props = {
 };
 
 export default class TreeNode extends Component<Props> {
+  static contextType = ThemeContext;
+
   onCheckboxClick = () => {
     const { onToggleCheck, node } = this.props;
     if (!node.disabled && node.hasCheckbox) {
@@ -148,7 +152,7 @@ export default class TreeNode extends Component<Props> {
       <Icon
         fade
         className={cx(styles.extraIcon, { [styles.disabled]: disabled })}
-        style={{ color: hasEdit ? colors.accent : "#666" }}>
+        style={{ color: hasEdit ? colors.accent : resolveTheme(this.context).colors.textFaint }}>
         {icon}
       </Icon>
     );

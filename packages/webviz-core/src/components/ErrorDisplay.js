@@ -19,6 +19,7 @@ import Modal, { Title } from "webviz-core/src/components/Modal";
 import renderToBody from "webviz-core/src/components/renderToBody";
 import { getGlobalHooks } from "webviz-core/src/loadWebviz";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { themeColor } from "webviz-core/src/styles/theme";
 import { colors as RobotStylesColors } from "webviz-core/src/util/colors";
 import { setErrorHandler, unsetErrorHandler, type DetailsType } from "webviz-core/src/util/reportError";
 
@@ -39,7 +40,8 @@ const Container = styled.div`
   padding: 0px 8px;
   transition: background-color 200ms linear;
   background-color: ${(props) => (props.flash ? colors.red : "")};
-  color: ${(props) => (props.flash ? "white" : props.unread ? colors.red : "rgba(255, 255, 255, 0.5)")};
+  color: ${(props) =>
+    props.flash ? themeColor("foreground")(props) : props.unread ? colors.red : themeColor("tintStrong")(props)};
 `;
 
 const Fader = styled.span`
@@ -67,7 +69,7 @@ const ErrorItemContainer = styled.div`
   max-width: 500px;
   font-size: 15px;
   &:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: ${themeColor("shadeLight")};
   }
 `;
 

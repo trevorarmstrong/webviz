@@ -7,11 +7,14 @@
 //  You may not use this file except in compliance with the License.
 
 import { addDecorator, configure } from "@storybook/react";
+import React from "react";
 import { initScreenshot, setScreenshotOptions } from "storybook-chrome-screenshot";
+import { ThemeProvider } from "styled-components";
 
 import "webviz-core/src/styles/global.scss";
 import prepareForScreenshots from "./prepareForScreenshots";
 import storiesSetup from "webviz-core/src/stories/setup";
+import { defaultTheme } from "webviz-core/src/styles/theme";
 import waitForFonts from "webviz-core/src/styles/waitForFonts";
 import installChartjs from "webviz-core/src/util/installChartjs";
 
@@ -20,6 +23,7 @@ global.GIT_INFO = {};
 installChartjs();
 
 addDecorator(initScreenshot());
+addDecorator((story) => <ThemeProvider theme={defaultTheme}>{story()}</ThemeProvider>);
 setScreenshotOptions({
   // if this function is present on the page, we wait for the promise it returns to resolve before taking a screenshot.
   waitFor: "waitFor",

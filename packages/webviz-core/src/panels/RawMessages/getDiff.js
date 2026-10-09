@@ -8,12 +8,23 @@
 import { every, uniq, keyBy, isEmpty } from "lodash";
 
 import { isTypicalFilterName } from "webviz-core/src/components/MessageHistory";
+import type { ThemeColorName } from "webviz-core/src/styles/theme";
 import { colors } from "webviz-core/src/util/colors";
 
 export const diffArrow = "->";
 export const diffLabels = {
-  ADDED: { labelText: "WEBVIZ_DIFF___ADDED", color: colors.DARK6, backgroundColor: "#182924", indicator: "+" },
-  DELETED: { labelText: "WEBVIZ_DIFF___DELETED", color: colors.DARK6, backgroundColor: "#3d2327", indicator: "-" },
+  ADDED: {
+    labelText: "WEBVIZ_DIFF___ADDED",
+    color: colors.DARK6,
+    backgroundColorName: ("diffAddedBackground": ThemeColorName),
+    indicator: "+",
+  },
+  DELETED: {
+    labelText: "WEBVIZ_DIFF___DELETED",
+    color: colors.DARK6,
+    backgroundColorName: ("diffDeletedBackground": ThemeColorName),
+    indicator: "-",
+  },
   CHANGED: { labelText: "WEBVIZ_DIFF___CHANGED", color: colors.ORANGEL1 },
   ID: { labelText: "WEBVIZ_DIFF___ID" },
 };

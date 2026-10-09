@@ -11,7 +11,7 @@ import ChartComponent from "react-chartjs-2";
 import DocumentEvents from "react-document-events";
 import ReactDOM from "react-dom";
 import type { Time } from "rosbag";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 
 import TimeBasedChartTooltip from "./TimeBasedChartTooltip";
 import Button from "webviz-core/src/components/Button";
@@ -21,6 +21,7 @@ import TimeBasedChartLegend from "webviz-core/src/components/TimeBasedChart/Time
 import Tooltip from "webviz-core/src/components/Tooltip";
 import Y_AXIS_ID from "webviz-core/src/panels/Plot/PlotChart";
 import mixins from "webviz-core/src/styles/mixins.module.scss";
+import { resolveTheme, themeColor } from "webviz-core/src/styles/theme";
 
 type Bounds = {| minX: ?number, maxX: ?number |};
 const SyncTimeAxis = createSyncingComponent<Bounds, Bounds>("SyncTimeAxis", (dataItems: Bounds[]) => ({
@@ -54,7 +55,7 @@ const SBar = styled.div`
   bottom: 0;
   width: 2px;
   margin-left: -1px;
-  background: yellow;
+  background: ${themeColor("chartHoverLine")};
   pointer-events: none;
   opacity: 0.7;
   display: none;
@@ -122,6 +123,7 @@ type State = {|
 // component. Uses chart.js internally, with a zoom/pan plugin, and with our
 // standard tooltips.
 export default class TimeBasedChart extends React.PureComponent<Props, State> {
+  static contextType = ThemeContext;
   _chart: ?ChartComponent;
   _tooltip: ?HTMLDivElement;
   _bar: ?HTMLDivElement;
@@ -313,21 +315,22 @@ export default class TimeBasedChart extends React.PureComponent<Props, State> {
   _chartjsOptions = (minX: ?number, maxX: ?number, userMinY: ?number, userMaxY: ?number) => {
     const { plugins, xAxes, yAxes, useFixedYAxisWidth } = this.props;
     const { annotations } = this.state;
+    const { chartText, chartGridLine } = resolveTheme(this.context).colors;
     const defaultXTicksSettings = {
       fontFamily: mixins.monospaceFont,
       fontSize: 10,
-      fontColor: "#eee",
+      fontColor: chartText,
       maxRotation: 0,
     };
     const defaultYTicksSettings = {
       fontFamily: mixins.monospaceFont,
       fontSize: 10,
-      fontColor: "#eee",
+      fontColor: chartText,
       padding: 0,
     };
     const defaultXAxis = {
       ticks: defaultXTicksSettings,
-      gridLines: { color: "rgba(255, 255, 255, 0.2)", zeroLineColor: "rgba(255, 255, 255, 0.2)" },
+      gridLines: { color: chartGridLine, zeroLineColor: chartGridLine },
       afterUpdate: this._onPlotChartUpdate,
     };
     // We create a new `options` object every time, but caching this wouldn't help anyway, since

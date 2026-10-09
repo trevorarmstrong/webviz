@@ -8,8 +8,10 @@
 import CheckboxBlankOutlineIcon from "@mdi/svg/svg/checkbox-blank-outline.svg";
 import CheckboxMarkedIcon from "@mdi/svg/svg/checkbox-marked.svg";
 import React from "react";
+import { ThemeContext } from "styled-components";
 
 import { PLOT_DASHED_STYLE, PLOT_DOT_DASHED_STYLE } from "webviz-core/src/components/TimeBasedChart/constants";
+import { resolveTheme } from "webviz-core/src/styles/theme";
 
 type Dataset = { label: string, color: string, borderDash: string };
 
@@ -24,6 +26,8 @@ type Props = {
 const checkboxStyle = { height: 12, marginBottom: -2 };
 
 export default class TimeBasedChartLegend extends React.PureComponent<Props> {
+  static contextType = ThemeContext;
+
   _toggleLine = (label: string) => () => {
     const { datasetId, toggleLine } = this.props;
     toggleLine(datasetId, label);
@@ -31,6 +35,7 @@ export default class TimeBasedChartLegend extends React.PureComponent<Props> {
 
   render() {
     const { canToggleLines, linesToHide } = this.props;
+    const { foreground } = resolveTheme(this.context).colors;
     return (
       <div>
         {this.props.datasets.map((dataset, i) => {
@@ -57,7 +62,7 @@ export default class TimeBasedChartLegend extends React.PureComponent<Props> {
           }
           const CheckboxComponent = linesToHide[label] ? CheckboxBlankOutlineIcon : CheckboxMarkedIcon;
           return (
-            <div key={i} style={{ color, fill: "white", whiteSpace: "nowrap" }}>
+            <div key={i} style={{ color, fill: foreground, whiteSpace: "nowrap" }}>
               {canToggleLines && <CheckboxComponent style={checkboxStyle} onClick={this._toggleLine(label)} />}
               {pointSvg} <span style={{ fontSize: "10px" }}>{label}</span>
             </div>

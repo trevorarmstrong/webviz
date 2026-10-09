@@ -15,7 +15,7 @@
     color: $highlight;
   }
   &:focus {
-    color: black;
+    color: $text-on-light;
     background-color: transparentize($text-normal, 0.2);
   }
 }

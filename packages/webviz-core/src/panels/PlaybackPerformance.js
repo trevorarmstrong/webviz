@@ -15,6 +15,7 @@ import Panel from "webviz-core/src/components/Panel";
 import PanelToolbar from "webviz-core/src/components/PanelToolbar";
 import { Sparkline, type SparklinePoint } from "webviz-core/src/components/Sparkline";
 import type { PlayerStateActiveData } from "webviz-core/src/players/types";
+import { useTheme } from "webviz-core/src/styles/theme";
 import { subtractTimes, toSec } from "webviz-core/src/util/time";
 
 const TIME_RANGE = 5000;
@@ -27,13 +28,14 @@ type PlaybackPerformanceItemProps = {|
 |};
 
 function PlaybackPerformanceItem(props: PlaybackPerformanceItemProps): React.Node {
+  const theme = useTheme();
   return (
     <div style={{ margin: 8 }}>
       <Sparkline points={props.points} maximum={props.maximum} width={100} height={30} timeRange={TIME_RANGE} />
       <div style={{ display: "inline-block", marginLeft: 12, verticalAlign: "middle" }}>
         {(last(props.points) || { value: 0 }).value.toFixed(props.decimalPlaces)}
         {props.children}
-        <div style={{ color: "#aaa" }}>
+        <div style={{ color: theme.colors.textSecondary }}>
           {(sumBy(props.points, "value") / props.points.length).toFixed(props.decimalPlaces)} avg
         </div>
       </div>

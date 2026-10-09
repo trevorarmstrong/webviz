@@ -13,6 +13,7 @@ import styled from "styled-components";
 
 import Icon from "webviz-core/src/components/Icon";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { themeColor } from "webviz-core/src/styles/theme";
 
 // Generic modal that renders a semi-transparent backdrop and close icon.
 // Should be opened using `renderInBody` so it sits on top of everything
@@ -44,7 +45,7 @@ const StyledMask = styled.div`
   bottom: 0;
   right: 0;
   opacity: 0.75;
-  background-color: black;
+  background-color: ${themeColor("modalBackdrop")};
   width: 100%;
   height: 100%;
 `;

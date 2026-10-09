@@ -6,10 +6,11 @@
 //  found in the LICENSE file in the root directory of this source tree.
 //  You may not use this file except in compliance with the License.
 import { complement } from "intervals-fn";
-import React, { Component } from "react";
+import React, { useCallback } from "react";
 
 import AutoSizingCanvas from "webviz-core/src/components/AutoSizingCanvas";
 import type { Progress } from "webviz-core/src/players/types";
+import { useTheme } from "webviz-core/src/styles/theme";
 
 const BAR_HEIGHT = 40;
 const LINE_START = 5;
@@ -19,32 +20,28 @@ type ProgressProps = {|
   progress: Progress,
 |};
 
-export class ProgressPlot extends Component<ProgressProps> {
-  shouldComponentUpdate(nextProps: ProgressProps) {
-    return nextProps.progress !== this.props.progress;
-  }
+export const ProgressPlot = React.memo<ProgressProps>(function ProgressPlot({ progress }: ProgressProps) {
+  const unloadedColor = useTheme().colors.shadeMedium;
+  const draw = useCallback(
+    (context: CanvasRenderingContext2D, width: number, height: number) => {
+      context.clearRect(0, 0, width, height);
 
-  _draw = (context: CanvasRenderingContext2D, width: number, height: number) => {
-    const { progress } = this.props;
-
-    context.clearRect(0, 0, width, height);
-
-    if (progress.fullyLoadedFractionRanges) {
-      context.fillStyle = "rgba(0, 0, 0, 0.5)";
-      const invertedRanges = complement({ start: 0, end: 1 }, progress.fullyLoadedFractionRanges);
-      for (const range of invertedRanges) {
-        const start = width * range.start;
-        const end = width * range.end;
-        context.fillRect(start, LINE_START + 12, end - start, LINE_HEIGHT);
+      if (progress.fullyLoadedFractionRanges) {
+        context.fillStyle = unloadedColor;
+        const invertedRanges = complement({ start: 0, end: 1 }, progress.fullyLoadedFractionRanges);
+        for (const range of invertedRanges) {
+          const start = width * range.start;
+          const end = width * range.end;
+          context.fillRect(start, LINE_START + 12, end - start, LINE_HEIGHT);
+        }
       }
-    }
-  };
+    },
+    [progress, unloadedColor]
+  );
 
-  render() {
-    return (
-      <div style={{ height: BAR_HEIGHT }}>
-        <AutoSizingCanvas draw={this._draw} />
-      </div>
-    );
-  }
-}
+  return (
+    <div style={{ height: BAR_HEIGHT }}>
+      <AutoSizingCanvas draw={draw} />
+    </div>
+  );
+});

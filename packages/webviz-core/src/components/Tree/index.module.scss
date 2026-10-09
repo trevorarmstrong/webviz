@@ -17,7 +17,7 @@ $padding: 6px;
 }
 
 .children {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: $shade-light;
 }
 
 .checkbox {
@@ -59,7 +59,7 @@ $padding: 6px;
   cursor: pointer;
 
   &:hover {
-    background: #3b2e76;
+    background: $menu-item-hover;
   }
 
   // the text should grow and shrink to the free space in the container

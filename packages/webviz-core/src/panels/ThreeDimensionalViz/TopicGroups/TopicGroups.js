@@ -29,6 +29,7 @@ import type { TopicGroupConfig, TopicGroupType } from "./types";
 import ChildToggle from "webviz-core/src/components/ChildToggle";
 import Icon from "webviz-core/src/components/Icon";
 import { type Topic } from "webviz-core/src/players/types";
+import { themeColor, useTheme } from "webviz-core/src/styles/theme";
 import type { Namespace } from "webviz-core/src/types/Messages";
 import { colors } from "webviz-core/src/util/colors";
 
@@ -73,11 +74,11 @@ const STopicGroups = styled.div`
             color: ${colors.YELLOWL1};
           }
           ${SEyeIcon} {
-            color: white;
+            color: ${themeColor("foreground")};
             opacity: 1;
           }
           ${SMenuWrapper} {
-            color: white;
+            color: ${themeColor("foreground")};
             opacity: 1;
           }
         }
@@ -139,6 +140,7 @@ export function TopicGroupsBase({
   saveConfig,
 }: BaseProps) {
   const [isOpen, setIsOpen] = useState(pinTopics);
+  const theme = useTheme();
 
   const toggleIsOpen = useCallback(() => setIsOpen(!isOpen), [isOpen]);
   const togglePinTopics = useCallback(() => saveConfig({ pinTopics: !pinTopics }), [pinTopics, saveConfig]);
@@ -184,7 +186,7 @@ export function TopicGroupsBase({
   return (
     <STopicGroupsContainer>
       <ChildToggle position="below" isOpen={isOpen || pinTopics} onToggle={toggleIsOpen} dataTest="open-topic-picker">
-        <Icon tooltip="Topic Picker" medium fade active={isOpen} style={{ color: "white" }}>
+        <Icon tooltip="Topic Picker" medium fade active={isOpen} style={{ color: theme.colors.foreground }}>
           <LayersIcon />
         </Icon>
         <STopicGroups>

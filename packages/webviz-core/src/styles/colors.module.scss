@@ -40,6 +40,28 @@ $accent: #22b5ff;
 $orange: #ccb862;
 $red: #ff7c96;
 
+// Keep values shared with styles/theme.js in sync with it.
+$foreground: white;
+$text-secondary: #aaa;
+$text-inactive: #777;
+$text-on-light: black;
+$text-option-disabled: gray;
+$chart-text: #eee;
+$tint-faint: rgba(255, 255, 255, 0.1);
+$tint-strong: rgba(255, 255, 255, 0.5);
+$shade-light: rgba(0, 0, 0, 0.2);
+$input-background: rgba(255, 255, 255, 0.05);
+$input-background-focus: rgba(255, 255, 255, 0.075);
+$input-background-disabled: rgba(255, 255, 255, 0.3);
+$textarea-background-focus: black;
+$scrollbar-thumb: #666;
+$panel-selection: #6e51ee;
+$log-info: #586e75;
+$log-debug: #93a1a1;
+$shadow-popover: 0 6px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.25);
+$shadow-popover-light-border: 0 6px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.2);
+$shadow-dropdown: 0 2px 12px rgba(0, 0, 0, 0.1);
+
 :export {
   highlight: $highlight;
   green: $green;

@@ -15,6 +15,7 @@ import helpContent from "./index.help.md";
 import Flex from "webviz-core/src/components/Flex";
 import Panel from "webviz-core/src/components/Panel";
 import PanelToolbar from "webviz-core/src/components/PanelToolbar";
+import { themeColor } from "webviz-core/src/styles/theme";
 import type { SaveConfig } from "webviz-core/src/types/panels";
 
 const STextArea = styled.textarea`
@@ -25,7 +26,7 @@ const STextArea = styled.textarea`
   margin: 0;
   padding: 4px 6px;
   &:focus {
-    background: rgba(255, 255, 255, 0.1);
+    background: ${themeColor("tintFaint")};
   }
 `;
 

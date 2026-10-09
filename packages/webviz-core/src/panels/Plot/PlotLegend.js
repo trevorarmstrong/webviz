@@ -16,6 +16,7 @@ import styles from "./PlotLegend.module.scss";
 import Icon from "webviz-core/src/components/Icon";
 import { MessageHistoryInput, type MessageHistoryTimestampMethod } from "webviz-core/src/components/MessageHistory";
 import { type PlotPath, isReferenceLinePlotPathType } from "webviz-core/src/panels/Plot/internalTypes";
+import { useTheme } from "webviz-core/src/styles/theme";
 import { lineColors } from "webviz-core/src/util/plotColors";
 
 type PlotLegendProps = {|
@@ -38,6 +39,7 @@ function PlotLegendToggle(props: { onToggle: () => void }) {
 export default function PlotLegend(props: PlotLegendProps) {
   const { paths, saveConfig, showLegend, xAxisVal } = props;
   const lastPath = last(paths);
+  const theme = useTheme();
 
   const onInputChange = useCallback(
     (value: string, index: ?number) => {
@@ -94,7 +96,7 @@ export default function PlotLegend(props: PlotLegendProps) {
                 }}>
                 <div
                   className={styles.itemIcon}
-                  style={{ color: path.enabled ? lineColors[index % lineColors.length] : "#777" }}
+                  style={{ color: path.enabled ? lineColors[index % lineColors.length] : theme.colors.textInactive }}
                 />
               </div>
               <div

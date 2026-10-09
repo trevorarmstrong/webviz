@@ -17,7 +17,7 @@ $legend-item-height: 20px;
   left: $legend-root-left;
   top: 25px;
   background: $legend-highlight-color;
-  color: #eee;
+  color: $chart-text;
   max-width: calc(100% - #{$legend-root-left});
 
   &:hover {

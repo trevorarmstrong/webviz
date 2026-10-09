@@ -17,6 +17,7 @@ import UnlinkGlobalVariable from "./UnlinkGlobalVariable";
 import UnlinkGlobalVariables from "./UnlinkGlobalVariables";
 import UnlinkWrapper from "./UnlinkWrapper";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { themeShadow } from "webviz-core/src/styles/theme";
 
 const SWrapper = styled.span`
   display: inline-flex;
@@ -58,7 +59,7 @@ export const SGlobalVariableForm = styled.form`
   margin-left: -16px;
   padding: 12px;
   width: 240px;
-  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.25);
+  box-shadow: ${themeShadow("popover")};
   pointer-events: auto;
   flex: 0 0 auto;
   border-radius: 8px;

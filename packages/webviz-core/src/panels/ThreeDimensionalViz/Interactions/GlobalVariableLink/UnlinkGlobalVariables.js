@@ -16,12 +16,13 @@ import { SGlobalVariableLink, SPath, GlobalVariableName } from "./index";
 import UnlinkWrapper from "./UnlinkWrapper";
 import Button from "webviz-core/src/components/Button";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { themeShadow } from "webviz-core/src/styles/theme";
 
 const SForm = styled.form`
   background-color: ${colors.toolbar};
   margin-left: 8px;
   width: 320px;
-  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.25);
+  box-shadow: ${themeShadow("popover")};
   pointer-events: auto;
   flex: 0 0 auto;
   border-radius: 8px;

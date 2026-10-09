@@ -21,6 +21,7 @@ import Button from "webviz-core/src/components/Button";
 import Icon from "webviz-core/src/components/Icon";
 import { getGlobalHooks } from "webviz-core/src/loadWebviz";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { useTheme } from "webviz-core/src/styles/theme";
 
 type TfTreeNode = {
   tf: Transform,
@@ -121,6 +122,7 @@ const arePropsEqual = (prevProps, nextProps) => {
 
 const FollowTFControl = memo<Props>((props: Props) => {
   const { transforms, tfToFollow, followOrientation, onFollowChange } = props;
+  const theme = useTheme();
   const [forceShowFrameList, setForceShowFrameList] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [lastSelectedFrame, setLastSelectedFrame] = useState(undefined);
@@ -255,12 +257,12 @@ const FollowTFControl = memo<Props>((props: Props) => {
           tooltip={"Select Another Frame\u2026"}
           onClick={openFrameList}
           tooltipProps={{ placement: "top" }}
-          style={{ color: "white" }}>
+          style={{ color: theme.colors.foreground }}>
           <MenuLeftIcon />
         </Icon>
       ) : null}
       <Button tooltipProps={{ placement: "top" }} onClick={onClickFollowButton} tooltip={getFollowButtonTooltip()}>
-        <Icon style={{ color: tfToFollow ? colors.accent : "white" }}>
+        <Icon style={{ color: tfToFollow ? colors.accent : theme.colors.foreground }}>
           {followOrientation ? <CompassOutlineIcon /> : <CrosshairsGpsIcon />}
         </Icon>
       </Button>

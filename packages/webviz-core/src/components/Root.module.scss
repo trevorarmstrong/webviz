@@ -14,7 +14,7 @@
 $spacing: 14px;
 
 .block {
-  color: white;
+  color: $foreground;
   flex: 0 0 auto;
   margin-right: $spacing;
   display: flex;

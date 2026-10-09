@@ -8,13 +8,15 @@
 import * as React from "react";
 import styled from "styled-components";
 
+import { themeColor } from "webviz-core/src/styles/theme";
+
 const Outer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: ${themeColor("shadeHeavy")};
   z-index: 100000;
   pointer-events: none;
 `;
@@ -26,13 +28,13 @@ const Inner = styled.div`
   right: 40px;
   bottom: 40px;
   border-radius: 28px;
-  border: 2px dashed rgba(255, 255, 255, 0.5);
+  border: 2px dashed ${themeColor("tintStrong")};
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: ${themeColor("foreground")};
   padding: 40px;
   line-height: normal;
 `;

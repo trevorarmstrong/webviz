@@ -27,6 +27,7 @@ import Slider from "webviz-core/src/components/Slider";
 import tooltipStyles from "webviz-core/src/components/Tooltip.module.scss";
 import { type PlayerState } from "webviz-core/src/players/types";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { themeColor } from "webviz-core/src/styles/theme";
 import { formatTime, formatTimeRaw, subtractTimes, toSec, fromSec } from "webviz-core/src/util/time";
 
 const StyledFullWidthBar = styled.div`
@@ -41,7 +42,7 @@ const StyledFullWidthBar = styled.div`
 const StyledMarker = styled.div.attrs({
   style: ({ width = 0 }) => ({ left: `calc(${width * 100}% - 2px)` }),
 })`
-  background-color: white;
+  background-color: ${themeColor("foreground")};
   position: absolute;
   height: 36%;
   border: 1px solid ${colors.divider};

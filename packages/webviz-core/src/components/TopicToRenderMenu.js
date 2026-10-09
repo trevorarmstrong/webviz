@@ -15,6 +15,7 @@ import Dropdown from "webviz-core/src/components/Dropdown";
 import Icon from "webviz-core/src/components/Icon";
 import styles from "webviz-core/src/components/PanelToolbar/index.module.scss";
 import type { Topic } from "webviz-core/src/players/types";
+import { themeColor } from "webviz-core/src/styles/theme";
 import { colors } from "webviz-core/src/util/colors";
 
 export type TopicGroup = {
@@ -39,6 +40,7 @@ const SDiv = styled.div`
   cursor: pointer;
   padding: 8px;
   height: 32px;
+  background-color: ${(props) => (props.isSelected ? themeColor("menuItemSelected")(props) : "transparent")};
 `;
 
 const SSpan = styled.span`
@@ -50,7 +52,7 @@ const SSpan = styled.span`
 const SIconSpan = styled.span`
   flex: flex-end;
   svg {
-    fill: white;
+    fill: ${themeColor("foreground")};
     width: 15px;
     height: 15px;
   }
@@ -115,7 +117,7 @@ export default function TopicToRenderMenu({
       }>
       {renderTopics.map((topic, idx) => (
         <SDiv
-          style={topicToRender === topic ? { backgroundColor: "rgba(59, 46, 118, 0.6)" } : {}}
+          isSelected={topicToRender === topic}
           key={topic}
           onClick={() => {
             onChange(topic);

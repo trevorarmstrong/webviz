@@ -20,6 +20,7 @@ import CameraInfo, {
 } from "webviz-core/src/panels/ThreeDimensionalViz/DrawingTools/CameraInfo";
 import styles from "webviz-core/src/panels/ThreeDimensionalViz/Layout.module.scss";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { useTheme } from "webviz-core/src/styles/theme";
 
 export const POLYGON_TAB_TYPE = "Polygons";
 export const CAMERA_TAB_TYPE = "Camera";
@@ -54,13 +55,14 @@ function DrawingTools({
   showCrosshair,
 }: Props) {
   const [selectedTab, setSelectedTab] = React.useState<?DrawingTabType>(defaultSelectedTab);
+  const theme = useTheme();
   const IconName = selectedTab === CAMERA_TAB_TYPE ? CameraControlIcon : PencilIcon;
 
   return (
     <ExpandingToolbar
       tooltip="Drawing tools and camera"
       icon={
-        <Icon style={{ color: selectedTab ? colors.accent : "white" }}>
+        <Icon style={{ color: selectedTab ? colors.accent : theme.colors.foreground }}>
           <IconName />
         </Icon>
       }

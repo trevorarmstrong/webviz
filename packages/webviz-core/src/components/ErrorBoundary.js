@@ -13,11 +13,12 @@ import styled from "styled-components";
 import Button from "webviz-core/src/components/Button";
 import Flex from "webviz-core/src/components/Flex";
 import PanelToolbar from "webviz-core/src/components/PanelToolbar";
+import { themeColor, useTheme } from "webviz-core/src/styles/theme";
 
 const Heading = styled.div`
   font-size: 1.2em;
   font-weight: bold;
-  color: coral;
+  color: ${themeColor("errorHeading")};
   margin-top: 0.5em;
 `;
 
@@ -25,10 +26,19 @@ const ErrorBanner = styled.div`
   flex: 1 1 auto;
   display: flex;
   align-items: center;
-  color: white;
-  background-color: red;
+  color: ${themeColor("foreground")};
+  background-color: ${themeColor("errorBackground")};
   padding: 2px 5px;
 `;
+
+function ReloadButton({ onClick }: { onClick: () => void }) {
+  const theme = useTheme();
+  return (
+    <Button style={{ background: theme.colors.tintStrong }} onClick={onClick}>
+      Reload Panel
+    </Button>
+  );
+}
 
 type State = {
   error: ?Error,
@@ -63,11 +73,7 @@ export default class ErrorBoundary extends React.Component<{ children: React.Nod
           <PanelToolbar>
             <ErrorBanner>
               <div style={{ flexGrow: 1 }}>An error occurred in {name}.</div>
-              <Button
-                style={{ background: "rgba(255, 255, 255, 0.5)" }}
-                onClick={() => this.setState({ error: undefined, errorInfo: undefined })}>
-                Reload Panel
-              </Button>
+              <ReloadButton onClick={() => this.setState({ error: undefined, errorInfo: undefined })} />
             </ErrorBanner>
           </PanelToolbar>
           <Flex col scroll scrollX style={{ padding: "2px 6px" }}>

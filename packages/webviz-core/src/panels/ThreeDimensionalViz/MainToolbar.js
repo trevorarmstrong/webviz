@@ -16,6 +16,7 @@ import Icon from "webviz-core/src/components/Icon";
 import MeasuringTool, { type MeasureInfo } from "webviz-core/src/panels/ThreeDimensionalViz/DrawingTools/MeasuringTool";
 import styles from "webviz-core/src/panels/ThreeDimensionalViz/Layout.module.scss";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { useTheme } from "webviz-core/src/styles/theme";
 
 type Props = {
   measuringTool: ?MeasuringTool,
@@ -36,10 +37,11 @@ function MainToolbar({
 }: Props) {
   const cameraModeTip = perspective ? "Switch to 2D camera" : "Switch to 3D camera";
   const measureActive = measureState === "place-start" || measureState === "place-finish";
+  const { foreground } = useTheme().colors;
   return (
     <div className={styles.buttons}>
       <Button tooltip={cameraModeTip} onClick={onToggleCameraMode}>
-        <Icon style={{ color: perspective ? colors.accent : "white" }}>
+        <Icon style={{ color: perspective ? colors.accent : foreground }}>
           <Video3dIcon />
         </Icon>
       </Button>
@@ -55,14 +57,14 @@ function MainToolbar({
         onClick={measuringTool ? measuringTool.toggleMeasureState : undefined}>
         <Icon
           style={{
-            color: measureActive ? colors.accent : perspective ? undefined : "white",
+            color: measureActive ? colors.accent : perspective ? undefined : foreground,
           }}>
           <RulerIcon />
         </Icon>
       </Button>
       {process.env.NODE_ENV === "development" && (
         <Button tooltip="Debug" onClick={onToggleDebug}>
-          <Icon style={{ color: debug ? colors.accent : "white" }}>
+          <Icon style={{ color: debug ? colors.accent : foreground }}>
             <BugIcon />
           </Icon>
         </Button>

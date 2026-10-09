@@ -35,6 +35,7 @@ import Panel from "webviz-core/src/components/Panel";
 import PanelToolbar from "webviz-core/src/components/PanelToolbar";
 import getDiff, { diffLabels, diffLabelsByLabelText } from "webviz-core/src/panels/RawMessages/getDiff";
 import type { Topic } from "webviz-core/src/players/types";
+import { useTheme } from "webviz-core/src/styles/theme";
 import type { PanelConfig } from "webviz-core/src/types/panels";
 import type { RosDatatypes } from "webviz-core/src/types/RosDatatypes";
 import { colors } from "webviz-core/src/util/colors";
@@ -67,6 +68,14 @@ function RawMessages(props: Props) {
   // When expandAll is unset, we'll use expandedFields to get expanded info
   const [expandAll, setExpandAll] = useState(false);
   const [expandedFields, setExpandedFields] = useState(() => new Set());
+  const theme = useTheme();
+  const getDiffBackgroundColor = useCallback(
+    (labelText: string): ?string => {
+      const label = diffLabelsByLabelText[labelText];
+      return label && label.backgroundColorName ? theme.colors[label.backgroundColorName] : undefined;
+    },
+    [theme]
+  );
 
   const diffTopicPath = useMemo(
     () => (diffTopicName ? diffTopicName + (splitTopicPathOnTopicName(topicName)?.trailingPath || "") : diffTopicName),
@@ -307,13 +316,13 @@ function RawMessages(props: Props) {
                         let backgroundColor;
                         let textDecoration;
                         if (diffLabelsByLabelText[keyPath[0]]) {
-                          backgroundColor = diffLabelsByLabelText[keyPath[0]].backgroundColor;
+                          backgroundColor = getDiffBackgroundColor(keyPath[0]);
                           textDecoration = keyPath[0] === diffLabels.DELETED.labelText ? "line-through" : "none";
                         }
                         const nestedObj = get(diff, keyPath.slice().reverse(), {});
                         const nestedObjKey = Object.keys(nestedObj)[0];
                         if (diffLabelsByLabelText[nestedObjKey]) {
-                          backgroundColor = diffLabelsByLabelText[nestedObjKey].backgroundColor;
+                          backgroundColor = getDiffBackgroundColor(nestedObjKey);
                           textDecoration = nestedObjKey === diffLabels.DELETED.labelText ? "line-through" : "none";
                         }
                         return {
@@ -336,7 +345,7 @@ function RawMessages(props: Props) {
                         const nestedObj = get(diff, keyPath.slice().reverse(), {});
                         const nestedObjKey = Object.keys(nestedObj)[0];
                         if (diffLabelsByLabelText[nestedObjKey]) {
-                          backgroundColor = diffLabelsByLabelText[nestedObjKey].backgroundColor;
+                          backgroundColor = getDiffBackgroundColor(nestedObjKey);
                           textDecoration = nestedObjKey === diffLabels.DELETED.labelText ? "line-through" : "none";
                         }
                         return {
@@ -354,7 +363,16 @@ function RawMessages(props: Props) {
         </MessageHistory>
       );
     },
-    [diffTopicName, diffTopicPath, expandAll, expandedFields, onLabelClick, topicName, valueRenderer]
+    [
+      diffTopicName,
+      diffTopicPath,
+      expandAll,
+      expandedFields,
+      getDiffBackgroundColor,
+      onLabelClick,
+      topicName,
+      valueRenderer,
+    ]
   );
 
   return (

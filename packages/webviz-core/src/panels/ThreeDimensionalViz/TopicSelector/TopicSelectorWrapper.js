@@ -22,6 +22,7 @@ import TopicSelectorTree from "./TopicSelectorTree";
 import Button from "webviz-core/src/components/Button";
 import Flex from "webviz-core/src/components/Flex";
 import Icon from "webviz-core/src/components/Icon";
+import { themeColor, themeShadow, useTheme } from "webviz-core/src/styles/theme";
 import { colors } from "webviz-core/src/util/colors";
 
 const SErrors = styled.div`
@@ -50,14 +51,14 @@ const SFilterRow = styled.div`
   flex-shrink: 0;
   padding-left: 8px;
   border-bottom: 1px solid ${colors.DARK8};
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: ${themeColor("tintFaint")};
 `;
 
 const SFloatingBox = styled.div`
   background-color: ${colors.DARK4};
   border-radius: 4px;
   padding: 0;
-  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 0, 0, 0.25);
+  box-shadow: ${themeShadow("popover")};
   overflow: hidden;
   pointer-events: auto;
   flex-shrink: 0;
@@ -165,6 +166,7 @@ export default function TopicSelectorWrapper({
   hiddenTopics,
   setHiddenTopics,
 }: TopicSelectorWrapperProps) {
+  const theme = useTheme();
   const [filterText, setFilterText] = useState("");
   const [showTopics, setShowTopics] = useState(pinTopics);
   const filterTextFieldRef = useRef();
@@ -222,7 +224,7 @@ export default function TopicSelectorWrapper({
     return (
       <div className={styles.buttons}>
         <Button onClick={onToggleShowClick} tooltip="Show Topic Picker">
-          <Icon style={{ color: "white" }}>
+          <Icon style={{ color: theme.colors.foreground }}>
             <LayersIcon />
           </Icon>
         </Button>
@@ -236,7 +238,7 @@ export default function TopicSelectorWrapper({
       <Flex col clip>
         <SFilterRow>
           <TopicDisplayModeSelector menuTooltip={label} saveConfig={saveConfig} topicDisplayMode={displayMode} />
-          <Icon style={{ color: "rgba(255,255,255, 0.3)", padding: "10px 0 10px 10px" }}>
+          <Icon style={{ color: theme.colors.tintMedium, padding: "10px 0 10px 10px" }}>
             <MagnifyIcon style={{ width: 16, height: 16 }} />
           </Icon>
           <input

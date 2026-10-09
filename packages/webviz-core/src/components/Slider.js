@@ -11,6 +11,7 @@ import * as React from "react";
 import DocumentEvents from "react-document-events";
 import styled from "styled-components";
 
+import { themeColor } from "webviz-core/src/styles/theme";
 import reportError from "webviz-core/src/util/reportError";
 
 // A low level slider component.
@@ -46,7 +47,7 @@ const StyledSlider = styled.div`
 export const StyledRange = styled.div.attrs({
   style: ({ width = 0 }) => ({ width: `${width * 100}%` }),
 })`
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: ${themeColor("tintLight")};
   position: absolute;
   height: 100%;
   border-radius: 2px;

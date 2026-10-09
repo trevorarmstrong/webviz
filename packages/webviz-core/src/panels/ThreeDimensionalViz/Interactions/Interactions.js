@@ -24,6 +24,7 @@ import { useChangeDetector } from "webviz-core/src/components/MessageHistory/hoo
 import PanelContext from "webviz-core/src/components/PanelContext";
 import { decodeAdditionalFields } from "webviz-core/src/panels/ThreeDimensionalViz/commands/Pointclouds/PointCloudBuilder";
 import styles from "webviz-core/src/panels/ThreeDimensionalViz/Layout.module.scss";
+import { useTheme } from "webviz-core/src/styles/theme";
 import type { SaveConfig, PanelConfig } from "webviz-core/src/types/panels";
 import { colors } from "webviz-core/src/util/colors";
 
@@ -74,6 +75,7 @@ const InteractionsBaseComponent = React.memo<PropsWithConfig>(function Interacti
   saveConfig,
 }: PropsWithConfig) {
   const [selectedTab, setSelectedTab] = React.useState<?TabType>(defaultSelectedTab);
+  const theme = useTheme();
   const selectedObjectChanged = useChangeDetector([selectedObject], !!selectedObject);
   React.useEffect(
     () => {
@@ -103,7 +105,7 @@ const InteractionsBaseComponent = React.memo<PropsWithConfig>(function Interacti
     <ExpandingToolbar
       tooltip="Clicked objects and linked variables"
       icon={
-        <Icon style={{ color: "white" }}>
+        <Icon style={{ color: theme.colors.foreground }}>
           <CursorDefault />
         </Icon>
       }

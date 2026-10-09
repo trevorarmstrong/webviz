@@ -8,11 +8,12 @@
 import React, { useContext, useRef } from "react";
 import { WorldviewReactContext, type WorldviewContextType } from "regl-worldview";
 
-const style = {
+import { useTheme } from "webviz-core/src/styles/theme";
+
+const baseStyle = {
   position: "absolute",
   bottom: 5,
   right: 5,
-  backgroundColor: "rgba(1, 1, 1, 0.2)",
   padding: 5,
   fontFamily: "monospace",
 };
@@ -42,6 +43,7 @@ function validate(stats) {
 export default function DebugStats() {
   const context = useContext<WorldviewContextType>(WorldviewReactContext);
   const renderCount = useRef(0);
+  const theme = useTheme();
   renderCount.current = renderCount.current + 1;
   if (context.initializedData.regl) {
     const { stats } = context.initializedData.regl;
@@ -49,7 +51,7 @@ export default function DebugStats() {
     const textureSize = (stats.getTotalTextureSize() / (1024 * 1024)).toFixed(1);
     const bufferSize = (stats.getTotalBufferSize() / (1024 * 1024)).toFixed(1);
     return (
-      <div style={style}>
+      <div style={{ ...baseStyle, backgroundColor: theme.colors.shadeLight }}>
         <div>renders: {renderCount.current}</div>
         <div>
           buffers: {stats.bufferCount} ({bufferSize}) Mb

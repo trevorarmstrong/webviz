@@ -7,9 +7,11 @@
 //  You may not use this file except in compliance with the License.
 
 import React, { PureComponent } from "react";
+import { ThemeContext } from "styled-components";
 
 import type { Node } from "./Node";
 import TreeNode from "./TreeNode";
+import { resolveTheme } from "webviz-core/src/styles/theme";
 
 // export the node flow type
 export type { Node } from "./Node";
@@ -27,6 +29,8 @@ type Props = {
 };
 
 export default class Tree extends PureComponent<Props> {
+  static contextType = ThemeContext;
+
   // make onEditClick optional. A no-op if not supplied
   static defaultProps = {
     onEditClick: () => {},
@@ -61,7 +65,7 @@ export default class Tree extends PureComponent<Props> {
     const { root, hideRoot } = this.props;
     const children = root.children || [];
     if (hideRoot && !children.filter((treeNode: Node) => treeNode.visible).length) {
-      return <div style={{ padding: "8px 12px", color: "#666" }}>None</div>;
+      return <div style={{ padding: "8px 12px", color: resolveTheme(this.context).colors.textFaint }}>None</div>;
     }
     return hideRoot ? children.map(this.renderNode) : this.renderNode(root);
   }

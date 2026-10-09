@@ -22,6 +22,7 @@ import { memoizedGetLinkedGlobalVariablesKeyByName } from "webviz-core/src/panel
 import useLinkedGlobalVariables from "webviz-core/src/panels/ThreeDimensionalViz/Interactions/useLinkedGlobalVariables";
 import inScreenshotTests from "webviz-core/src/stories/inScreenshotTests";
 import colors from "webviz-core/src/styles/colors.module.scss";
+import { themeColor, useTheme } from "webviz-core/src/styles/theme";
 import clipboard from "webviz-core/src/util/clipboard";
 import { GLOBAL_VARIABLES_QUERY_KEY } from "webviz-core/src/util/globalConstants";
 
@@ -34,7 +35,7 @@ const SDeleteIcon = styled.span`
   padding-left: 1px;
 
   &:hover {
-    color: white;
+    color: ${themeColor("foreground")};
   }
 `;
 
@@ -50,7 +51,7 @@ const SGlobalVariables = styled.div`
   }
 
   tr:nth-child(odd) {
-    background-color: #222;
+    background-color: ${themeColor("surfaceInset")};
   }
 
   tr:hover ${SDeleteIcon} {
@@ -90,9 +91,10 @@ function JSONInput(props: {| value: string, onChange: (mixed) => void |}) {
   }
   const parsedValue = parseJson(internalValue);
   const isValid = parsedValue !== undefined;
+  const theme = useTheme();
   return (
     <input
-      style={{ color: isValid ? "white" : colors.red }}
+      style={{ color: isValid ? theme.colors.foreground : colors.red }}
       data-test="json-input"
       type="text"
       value={internalValue}
@@ -115,6 +117,7 @@ function JSONInput(props: {| value: string, onChange: (mixed) => void |}) {
 }
 
 function ValidatedResizingInput(props: {| value: string, onChange: (string) => void, invalidInputs: string[] |}) {
+  const theme = useTheme();
   const [internalValue, setInternalValue] = useState<string>(props.value);
   const lastPropsValue = useRef<string>(props.value);
   if (lastPropsValue.current !== props.value) {
@@ -123,7 +126,7 @@ function ValidatedResizingInput(props: {| value: string, onChange: (string) => v
   }
   return (
     <ReactInputAutosize
-      style={{ color: !props.invalidInputs.includes(internalValue) ? "white" : colors.red }}
+      style={{ color: !props.invalidInputs.includes(internalValue) ? theme.colors.foreground : colors.red }}
       value={`$${internalValue}`}
       onChange={(event) => {
         const value = event.target.value.slice(1);
